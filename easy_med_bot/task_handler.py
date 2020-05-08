@@ -19,7 +19,7 @@ def replace_characters(text):
         print(current_exception)
 
 
-def open_year_file(current_step, current_year, current_period = ""):
+def open_year_file(current_step, current_year):
     try:
         '''
         This function opens a file that corresponds to passed step and year.
@@ -35,13 +35,18 @@ def open_year_file(current_step, current_year, current_period = ""):
                ]
         '''
         step = [current_year]
-        file_name = "STEPS/{}/{}{}.docx".format(current_step, current_period, current_year)
+        file_name = "STEPS/{}/{}.docx".format(current_step, current_year)
         file_name = "easy_med_bot/" + file_name
         file_text = process(file_name)
         split_file_text = file_text.split('\n\n')
         question_id_list = [question_id for question_id in range(0, len(split_file_text), 6)]
 
+        print(len(split_file_text), current_step, current_year)
+
         for question_id in question_id_list:
+
+            # print(current_year, current_step)
+            # print(question_id)
 
             question = split_file_text[question_id].replace("\\", "")
 
@@ -84,9 +89,10 @@ def generate_tasks_dict():
 
         for step in config.steps:
             for year in config.years[int(step[-1]) - 1]:
+                period = ""
                 if step == "STEP3":
-                    continue
-                tasks_dict[step + "_" + year] = open_year_file(step, year)
+                    period = "AUTUMN"
+                tasks_dict[step + "_" + period + "-" + year] = open_year_file(step, period + "/" + year)
 
         return tasks_dict
 
@@ -119,4 +125,3 @@ def randomize_answers(task):
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print(exc_type, file_name, exc_tb.tb_lineno)
         print(current_exception)
-

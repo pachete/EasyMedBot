@@ -1,5 +1,6 @@
 import os
 import sys
+import re
 
 from easy_med_bot import config
 
@@ -64,6 +65,10 @@ class CallbackSwitcher(Switcher):
         try:
             self.user.year = self.split_callback_text[1]
             self.user.current_years = config.years[int(self.user.step[-1]) - 1]
+
+            if "AUTUMN" in self.user.year:
+                self.select_task()
+                return
 
             if self.user.year in self.user.current_years:
                 self.select_task()
@@ -134,10 +139,14 @@ class CallbackSwitcher(Switcher):
             markup = types.InlineKeyboardMarkup(row_width = row_width)
 
             first_row = []
-            for year in self.user.current_years:
+            for year in self.user.current_years[::-1]:
+                period = ""
                 if self.user.step == "STEP3":
-                    year = "AUTUMN/" + year
-                first_row.append(types.InlineKeyboardButton(year, callback_data = "select_year_" + year).to_dic())
+                    period = "AUTUMN-"
+                first_row.append(types.InlineKeyboardButton(
+                                                            year,
+                                                            callback_data = "select_year_" + period + year
+                                                           ).to_dic())
 
             markup.keyboard.append(first_row)
             markup.add(types.InlineKeyboardButton("Випадковий тест 🎲", callback_data = "select_year_random"))
@@ -156,16 +165,23 @@ class CallbackSwitcher(Switcher):
 
     def generate_task_keyboard(self):
         try:
+            # print(config.tasks_dict[self.user.step + "_" + self.user.year])
+            print(self.user.step == "STEP3")
+
+            period = ""
+            task_text = ""
+
             if self.user.step_type == "random":
                 length = len(self.user.current_years) - 1
                 self.user.year = self.user.current_years[randint(0, length)]
-                self.user.task_id = randint(1, 200)
+                self.user.task_id = randint(1, len(config.tasks_dict[self.user.step + "_" + period + self.user.year]))
+                task_text = self.user.year + " рік\n"
 
-            task = config.tasks_dict[self.user.step + "_" + self.user.year][self.user.task_id]
-            task_text, correct_answer = randomize_answers(task)
+            task = config.tasks_dict[self.user.step + "_" + period + self.user.year][self.user.task_id]
+            task_and_answer = randomize_answers(task)
 
-            if self.user.step_type == "random":
-                task_text = self.user.year + " рік\n" + task_text
+            task_text += task_and_answer[0]
+            correct_answer = task_and_answer[1]
 
             print(
                   self.user.task_id, correct_answer,
@@ -177,6 +193,8 @@ class CallbackSwitcher(Switcher):
                 if percentage[2:] == ".0":
                     percentage = percentage[:2]
                 task_text = "*Правильних " + percentage + "%*\n" + task_text
+            else:
+                task_text = "*Правильних 0%*\n" + task_text
 
             markup = types.InlineKeyboardMarkup()
 
@@ -218,10 +236,14 @@ class CallbackSwitcher(Switcher):
                 answer_check = "⛔ Неправильна відповідь!"
 
             self.user.current_answer_message = answer_check
+            # print(self.message_text.partition("\n")[0])
+            split_message_text = self.message_text.partition("\n")
+            self.message_text = "*" + split_message_text[0] + "*\n" + split_message_text[2]
             self.bot.edit_message_text(
                                        chat_id = self.chat_id,
                                        message_id = self.message_id,
                                        text = self.message_text.replace('(' + correct_answer + ')', '✅ '),
+                                       parse_mode = "Markdown",
                                        reply_markup = None
                                       )
 

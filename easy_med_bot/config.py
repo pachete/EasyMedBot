@@ -1,12 +1,12 @@
-# API_TOKEN = '1294627568:AAFVVUncrrbbEQ1MOJmeytYt5tyseJxjmFE'
-API_TOKEN = '941290827:AAGEGFB-ZdhJyNRkwsCiD17T_8ZxfFatRXs'
+API_TOKEN = '1294627568:AAFVVUncrrbbEQ1MOJmeytYt5tyseJxjmFE'
+# API_TOKEN = '941290827:AAGEGFB-ZdhJyNRkwsCiD17T_8ZxfFatRXs'
 
 commands = ["start", "help", "register"]
 steps = ["STEP1", "STEP2", "STEP3"]
-periods = ["Autumn"]
+periods = ["AUTUMN"]
 years = [["2014", "2015", "2016", "2017", "2018", "2019"],
-         ["2014", "2015", "2016", "2017", "2018"],
-         ["2016", "2017", "2018", "2019"]]
+         ["2015", "2017", "2018"],  # "2014", "2016"
+         ["2016", "2018", "2019"]]  # "2017"
 
 tasks_dict = dict()
 user_dict = dict()
