@@ -171,6 +171,11 @@ class CallbackSwitcher(Switcher):
             period = ""
             task_text = ""
 
+            if self.user.step == "STEP3":
+                period = "AUTUMN-"
+
+            print(config.tasks_dict.keys())
+
             if self.user.step_type == "random":
                 length = len(self.user.current_years) - 1
                 self.user.year = self.user.current_years[randint(0, length)]

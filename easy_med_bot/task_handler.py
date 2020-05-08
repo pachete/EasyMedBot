@@ -91,8 +91,8 @@ def generate_tasks_dict():
             for year in config.years[int(step[-1]) - 1]:
                 period = ""
                 if step == "STEP3":
-                    period = "AUTUMN"
-                tasks_dict[step + "_" + period + "-" + year] = open_year_file(step, period + "/" + year)
+                    period = "AUTUMN-"
+                tasks_dict[step + "_" + period + year] = open_year_file(step, period[:-1] + "/" + year)
 
         return tasks_dict
 
@@ -119,7 +119,9 @@ def randomize_answers(task):
                 answers += letters_in_brackets[letter_id] + answer + '\n'
                 letter_id += 1
         task_text = (task['question'] + '\n' + answers).strip()
+
         return task_text, correct_letter
+
     except Exception as current_exception:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
