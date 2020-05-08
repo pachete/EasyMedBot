@@ -68,11 +68,11 @@ class CallbackSwitcher(Switcher):
 
             if self.user.step == "STEP3":
                 self.user.period = "AUTUMN"
-                self.select_task()
-                return
+
+            if self.user.step != "STEP3":
+                self.user.period = ""
 
             if self.user.year in self.user.current_years:
-                self.user.period = ""
                 self.select_task()
                 return
 
