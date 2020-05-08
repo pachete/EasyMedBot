@@ -72,6 +72,7 @@ class CallbackSwitcher(Switcher):
                 return
 
             if self.user.year in self.user.current_years:
+                self.user.period = ""
                 self.select_task()
                 return
 
