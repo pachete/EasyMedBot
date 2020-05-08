@@ -66,7 +66,7 @@ class CallbackSwitcher(Switcher):
             self.user.year = self.split_callback_text[1]
             self.user.current_years = config.years[int(self.user.step[-1]) - 1]
 
-            if "AUTUMN" in self.user.year:
+            if self.user.step == "STEP3":
                 self.user.period = "AUTUMN"
                 self.select_task()
                 return
