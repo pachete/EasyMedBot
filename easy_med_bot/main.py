@@ -6,7 +6,7 @@ from easy_med_bot import config
 
 from easy_med_bot.command_switcher import CommandSwitcher
 from easy_med_bot.callback_switcher import CallbackSwitcher
-from easy_med_bot.message_switcher import MessageSwitcher   
+from easy_med_bot.message_switcher import MessageSwitcher
 
 from easy_med_bot.task_handler import generate_tasks_dict
 

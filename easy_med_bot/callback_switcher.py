@@ -135,6 +135,8 @@ class CallbackSwitcher(Switcher):
 
             first_row = []
             for year in self.user.current_years:
+                if self.user.step == "STEP3":
+                    year = "AUTUMN/" + year
                 first_row.append(types.InlineKeyboardButton(year, callback_data = "select_year_" + year).to_dic())
 
             markup.keyboard.append(first_row)

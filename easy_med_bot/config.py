@@ -3,7 +3,10 @@ API_TOKEN = '941290827:AAGEGFB-ZdhJyNRkwsCiD17T_8ZxfFatRXs'
 
 commands = ["start", "help", "register"]
 steps = ["STEP1", "STEP2", "STEP3"]
-years = [["2014", "2015", "2016", "2017", "2018"], ["2017", "2018"], ["2019"]]
+periods = ["Autumn"]
+years = [["2014", "2015", "2016", "2017", "2018", "2019"],
+         ["2014", "2015", "2016", "2017", "2018"],
+         ["2016", "2017", "2018", "2019"]]
 
 tasks_dict = dict()
 user_dict = dict()
