@@ -169,16 +169,19 @@ class CallbackSwitcher(Switcher):
             # print(config.tasks_dict.keys())
 
             if self.user.period == "AUTUMN":
-                period = "AUTUMN"
+                period = "AUTUMN-"
 
             if self.user.step_type == "random":
                 length = len(self.user.current_years) - 1
                 self.user.year = self.user.current_years[randint(0, length)]
                 self.user.task_id = randint(1, len(config.tasks_dict[self.user.step + "_" +
-                                                                     period + "-" + self.user.year]))
+                                                                     period + self.user.year]))
                 task_text = self.user.year + " рік\n"
 
-            task = config.tasks_dict[self.user.step + "_" + period + "-" + self.user.year][self.user.task_id]
+           #if self.user.step == "STEP3":
+            #    period += "-"
+
+            task = config.tasks_dict[self.user.step + "_" + period + self.user.year][self.user.task_id]
             task_and_answer = randomize_answers(task)
 
             task_text += task_and_answer[0]
