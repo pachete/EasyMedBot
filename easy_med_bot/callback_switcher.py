@@ -67,6 +67,7 @@ class CallbackSwitcher(Switcher):
             self.user.current_years = config.years[int(self.user.step[-1]) - 1]
 
             if "AUTUMN" in self.user.year:
+                self.user.period = "AUTUMN"
                 self.select_task()
                 return
 
@@ -114,8 +115,6 @@ class CallbackSwitcher(Switcher):
     def select_random_task(self):
         try:
             self.user.step_type = "random"
-            random_id = randint(1, 200)
-            self.user.task_id = random_id
 
             self.bot.edit_message_text(
                                        chat_id = self.chat_id,
@@ -140,12 +139,9 @@ class CallbackSwitcher(Switcher):
 
             first_row = []
             for year in self.user.current_years[::-1]:
-                period = ""
-                if self.user.step == "STEP3":
-                    period = "AUTUMN-"
                 first_row.append(types.InlineKeyboardButton(
                                                             year,
-                                                            callback_data = "select_year_" + period + year
+                                                            callback_data = "select_year_" + year
                                                            ).to_dic())
 
             markup.keyboard.append(first_row)
@@ -165,16 +161,12 @@ class CallbackSwitcher(Switcher):
 
     def generate_task_keyboard(self):
         try:
-            # print(config.tasks_dict[self.user.step + "_" + self.user.year])
-            print(self.user.step == "STEP3")
 
             period = ""
             task_text = ""
 
-            if self.user.step == "STEP3":
-                period = "AUTUMN-"
-
-            print(config.tasks_dict.keys())
+            if self.user.period == "AUTUMN":
+                period = "AUTUMN"
 
             if self.user.step_type == "random":
                 length = len(self.user.current_years) - 1
