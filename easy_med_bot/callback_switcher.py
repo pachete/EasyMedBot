@@ -166,7 +166,7 @@ class CallbackSwitcher(Switcher):
             period = ""
             task_text = ""
 
-            print(config.tasks_dict.keys())
+            # print(config.tasks_dict.keys())
 
             if self.user.period == "AUTUMN":
                 period = "AUTUMN"
