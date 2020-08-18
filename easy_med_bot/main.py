@@ -11,6 +11,13 @@ from easy_med_bot.message_switcher import MessageSwitcher
 from easy_med_bot.task_handler import generate_tasks_dict
 
 
+def exception_handler(curr_exc):
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+    print(exc_type, file_name, exc_tb.tb_lineno)
+    print(curr_exc)
+
+
 @easy_med_bot.callback_query_handler(func = lambda call: True)
 def handle_callbacks(callback):
     try:

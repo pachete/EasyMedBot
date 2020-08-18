@@ -178,7 +178,7 @@ class CallbackSwitcher(Switcher):
                                                                      period + self.user.year]))
                 task_text = self.user.year + " рік\n"
 
-           #if self.user.step == "STEP3":
+           # if self.user.step == "STEP3":
             #    period += "-"
 
             task = config.tasks_dict[self.user.step + "_" + period + self.user.year][self.user.task_id]
