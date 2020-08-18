@@ -3,7 +3,6 @@ import sys
 
 from easy_med_bot import config
 
-from telebot import types
 from easy_med_bot.switcher_class import Switcher
 from easy_med_bot.user import User
 

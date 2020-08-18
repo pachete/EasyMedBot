@@ -1,6 +1,5 @@
 import os
 import sys
-import re
 
 from easy_med_bot import config
 
@@ -178,7 +177,7 @@ class CallbackSwitcher(Switcher):
                                                                      period + self.user.year]))
                 task_text = self.user.year + " рік\n"
 
-           # if self.user.step == "STEP3":
+            # if self.user.step == "STEP3":
             #    period += "-"
 
             task = config.tasks_dict[self.user.step + "_" + period + self.user.year][self.user.task_id]
@@ -192,13 +191,16 @@ class CallbackSwitcher(Switcher):
                   str(self.user.count_correct_answers) + " /", self.user.count_answers
                  )
 
+            task_number = len(config.tasks_dict[self.user.step + "_" + period + self.user.year]) - 1
+            task_ratio = " {}/{}".format(self.user.count_correct_answers, task_number)
+
             if self.user.count_answers != 0 and self.user.count_correct_answers != 0:
-                percentage = str((self.user.count_correct_answers * 100) / self.user.count_answers)[:5]
+                percentage = str((self.user.count_correct_answers * 100) / task_number)[:5]
                 if percentage[2:] == ".0":
                     percentage = percentage[:2]
-                task_text = "*Правильних " + percentage + "%*\n" + task_text
-            else:
-                task_text = "*Правильних 0%*\n" + task_text
+            #     task_text = "*Правильних " + percentage + "%*" + task_ratio + "\n" + task_text
+            # else:
+            #     task_text = "*Правильних 0%* " + task_ratio + "\n" + task_text
 
             markup = types.InlineKeyboardMarkup()
 
@@ -283,10 +285,26 @@ class CallbackSwitcher(Switcher):
 
     def end_test(self):
         try:
+
+            period = ""
+            task_number = len(config.tasks_dict[self.user.step + "_" + period + self.user.year]) - 1
+
+            if self.user.period == "AUTUMN":
+                period = "AUTUMN-"
+
             if self.user.step_type != "random":
-                msg = "Ви завершили тест КРОК-" + self.user.step[-1] + " " + self.user.year
-            else:
-                msg = "Ви завершили випадкові тести."
+                msg = "Ви завершили тест КРОК-" + self.user.step[-1] + " " + self.user.year + "\n"
+                msg += "Ви дійшли до завдання номер " + str(self.user.task_id - 1) + "\n"
+                msg += "Загальний результат по тесту: "
+                msg += str(100 * (self.user.count_correct_answers / task_number)) + "%"
+                msg += " (" + str(self.user.count_correct_answers) + "/" + str(task_number) + ")"
+            if self.user.step_type == "random":
+                msg = "Ви завершили випадкові тести.\n"
+                msg += "Результат: ".format(self.user.count_answers)
+                msg += str(100 * (self.user.count_correct_answers / self.user.count_answers)) + "%"
+                msg += " (" + str(self.user.count_correct_answers) + "/" + str(self.user.count_answers) + ")"
+
+            self.user.count_correct_answers = 0
 
             self.bot.delete_message(
                                     chat_id = self.chat_id,

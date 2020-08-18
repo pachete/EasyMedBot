@@ -1,7 +1,7 @@
-import os
-import sys
+# import os
+# import sys
 
-from easy_med_bot import config
+# from easy_med_bot import config
 
 
 class User:

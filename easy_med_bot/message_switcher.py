@@ -1,7 +1,7 @@
 import os
 import sys
 
-from telebot import types
+# from telebot import types
 from easy_med_bot.bot import easy_med_bot
 
 from easy_med_bot.task_handler import randomize_answers

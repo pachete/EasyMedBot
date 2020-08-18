@@ -61,6 +61,9 @@ def main():
         easy_med_bot.load_next_step_handlers()
         easy_med_bot.polling(none_stop = True)
     except Exception as current_exception:
+
+        print("-----------------------MAIN-----------------------")
+
         exc_type, exc_obj, exc_tb = sys.exc_info()
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print(exc_type, file_name, exc_tb.tb_lineno)
