@@ -1,7 +1,7 @@
 import os
 import sys
 
-# from telebot import types
+from easy_med_bot import message_text_config
 from easy_med_bot.bot import easy_med_bot
 
 from easy_med_bot.task_handler import randomize_answers
@@ -20,7 +20,7 @@ def search(message):
         if len(split_search_text) < 3:
             msg = easy_med_bot.send_message(
                                             chat_id = message.chat.id,
-                                            text = "Будь ласка введіть не менше 3 слів в запиті!"
+                                            text = message_text_config.msg_search_error
                                            )
             easy_med_bot.register_next_step_handler(msg, search)
             return
@@ -69,10 +69,10 @@ class MessageSwitcher(Switcher):
     def __init__(self, bot):
         super().__init__(bot)
         self.switcher = {
-                         "КРОК📝": self.message_step,
-                         "Пошук по тестам🔎️": self.message_search_tests,
-                         "Налаштування⚙": self.message_settings,
-                         "Підтримати проект💰💪": self.support
+                         message_text_config.msg_step: self.message_step,
+                         message_text_config.msg_search_tests: self.message_search_tests,
+                         # "Налаштування⚙": self.message_settings,
+                         message_text_config.msg_support_project: self.support
                         }
 
     def get_attribute(self):
@@ -101,9 +101,11 @@ class MessageSwitcher(Switcher):
 
     def message_search_tests(self):
         try:
+            my_msg = message_text_config.msg_start_search
+
             config.reply_keyboard_markup = self.reply_keyboard
 
-            msg = self.bot.send_message(chat_id = self.chat_id, text = "🔍 Введіть Ваш пошуковий запит: ")
+            msg = self.bot.send_message(chat_id = self.chat_id, text = my_msg)
             self.bot.register_next_step_handler(msg, search)
 
         except Exception as current_exception:
@@ -117,15 +119,8 @@ class MessageSwitcher(Switcher):
 
     def support(self):
 
-        support_message = "Ми вклали неймовірну кількість зусиль та часу в створення цього бота. " \
-                          "Ми не вставляємо сюди рекламу і не монетизуємо проект іншими способами," \
-                          " а тому всі витрати оплачуються з власної кишені. Саме тому ми просимо Вашої підтримки🙏\n" \
-                          "▪️ПриватБанк - 5169360006273357\n" \
-                          "▪️MonoBank - 5375414101943800\n" \
-                          "Білоус Олександр\n" \
-
         self.bot.send_message(
                               chat_id = self.chat_id,
-                              text = support_message,
+                              text = message_text_config.msg_support_me,
                               reply_markup = self.reply_keyboard()
                              )

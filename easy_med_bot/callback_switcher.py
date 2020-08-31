@@ -285,12 +285,13 @@ class CallbackSwitcher(Switcher):
 
     def end_test(self):
         try:
-
+            msg = ""
             period = ""
-            task_number = len(config.tasks_dict[self.user.step + "_" + period + self.user.year]) - 1
 
             if self.user.period == "AUTUMN":
                 period = "AUTUMN-"
+
+            task_number = len(config.tasks_dict[self.user.step + "_" + period + self.user.year]) - 1
 
             if self.user.step_type != "random":
                 msg = "Ви завершили тест КРОК-" + self.user.step[-1] + " " + self.user.year + "\n"

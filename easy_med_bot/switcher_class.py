@@ -1,6 +1,8 @@
 import os
 import sys
 
+from easy_med_bot import message_text_config
+
 # from easy_med_bot import config
 
 from telebot import types
@@ -39,14 +41,19 @@ class Switcher:
 
     def reply_keyboard(self):
         try:
+
+            step_msg = message_text_config.msg_step
+            search_msg = message_text_config.msg_search_tests
+            support_msg = message_text_config.msg_support_project
+
             markup = types.ReplyKeyboardMarkup(True, True)
             markup.row(
-                       types.InlineKeyboardButton("КРОК📝", callback_data = "select_step_"),
-                       types.InlineKeyboardButton("Пошук по тестам🔎️", callback_data = "search_book_")
+                       types.InlineKeyboardButton(step_msg, callback_data = "select_step_"),
+                       types.InlineKeyboardButton(search_msg, callback_data = "search_book_")
                       )
             markup.row(
                        # types.InlineKeyboardButton("Налаштування⚙", callback_data = ""),
-                       types.InlineKeyboardButton("Підтримати проект💰💪", callback_data = "")
+                       types.InlineKeyboardButton(support_msg, callback_data = "")
                       )
             return markup
         except Exception as current_exception:
@@ -57,6 +64,7 @@ class Switcher:
 
     def generate_step_keyboard(self):
         try:
+
             if not self.message_text:
                 return
             markup = types.InlineKeyboardMarkup()
@@ -65,7 +73,10 @@ class Switcher:
                     types.InlineKeyboardButton("КРОК-2", callback_data = "select_step_STEP2"),
                     types.InlineKeyboardButton("КРОК-3", callback_data = "select_step_STEP3")
                     )
-            self.bot.send_message(self.chat_id, "🤔Яка база данних КРОК вас цікавить?", reply_markup = markup)
+
+            msg = message_text_config.msg_select_step
+
+            self.bot.send_message(self.chat_id, msg, reply_markup = markup)
         except Exception as current_exception:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
