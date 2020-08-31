@@ -36,7 +36,7 @@ def open_year_file(current_step, current_year):
         '''
         step = [current_year]
         file_name = "STEPS/{}/{}.docx".format(current_step, current_year)
-        # file_name = "easy_med_bot/" + file_name
+        file_name = "easy_med_bot/" + file_name
         file_text = process(file_name)
         split_file_text = file_text.split('\n\n')
         question_id_list = [question_id for question_id in range(0, len(split_file_text), 6)]
