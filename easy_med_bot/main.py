@@ -73,6 +73,7 @@ def main():
 if __name__ == '__main__':
     try:
         config.tasks_dict = generate_tasks_dict()
+        # print(config.tasks_dict["STEP1_2019"][155])
         print("Bot is loaded")
         main()
     except Exception as main_exception:
