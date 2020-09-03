@@ -1,6 +1,7 @@
 import os
 import sys
 
+from datetime import datetime
 from easy_med_bot.bot import easy_med_bot
 from easy_med_bot import config
 
@@ -74,7 +75,8 @@ if __name__ == '__main__':
     try:
         config.tasks_dict = generate_tasks_dict()
         # print(config.tasks_dict["STEP1_2019"][155])
-        print("Bot is loaded")
+        date_time_now = datetime.now()
+        print("[{}] ".format(date_time_now.strftime("%d/%m/%Y %H:%M:%S")), "Bot is loaded")
         main()
     except Exception as main_exception:
         print(main_exception)

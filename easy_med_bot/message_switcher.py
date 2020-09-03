@@ -1,6 +1,7 @@
 import os
 import sys
 
+from datetime import datetime
 from easy_med_bot import message_text_config
 from easy_med_bot.bot import easy_med_bot
 
@@ -78,7 +79,8 @@ class MessageSwitcher(Switcher):
     def get_attribute(self):
         try:
             if self.chat_id not in config.user_dict.keys():
-                print("ok", self.chat_id)
+                date_time_now = datetime.now()
+                print("[{}] ".format(date_time_now.strftime("%d/%m/%Y %H:%M:%S")), "first time: ", self.chat_id)
                 config.user_dict[self.chat_id] = User(self.chat_id)
 
             return self.switcher.get(self.message_text)

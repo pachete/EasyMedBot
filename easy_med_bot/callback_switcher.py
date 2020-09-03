@@ -1,6 +1,7 @@
 import os
 import sys
 
+from datetime import datetime
 from easy_med_bot import config
 
 from telebot import types
@@ -186,18 +187,17 @@ class CallbackSwitcher(Switcher):
             task_text += task_and_answer[0]
             correct_answer = task_and_answer[1]
 
-            print(
-                  self.user.task_id, correct_answer,
-                  str(self.user.count_correct_answers) + " /", self.user.count_answers
-                 )
+            date_time_now = datetime.now()
+            print("[{}] ".format(date_time_now.strftime("%d/%m/%Y %H:%M:%S")),
+                  "{} task: ".format(self.user.chat_id), self.user.task_id, correct_answer)
 
             task_number = len(config.tasks_dict[self.user.step + "_" + period + self.user.year]) - 1
-            task_ratio = " {}/{}".format(self.user.count_correct_answers, task_number)
+            # task_ratio = " {}/{}".format(self.user.count_correct_answers, task_number)
 
-            if self.user.count_answers != 0 and self.user.count_correct_answers != 0:
-                percentage = str((self.user.count_correct_answers * 100) / task_number)[:5]
-                if percentage[2:] == ".0":
-                    percentage = percentage[:2]
+            # if self.user.count_answers != 0 and self.user.count_correct_answers != 0:
+                # percentage = str((self.user.count_correct_answers * 100) / task_number)[:5]
+                # if percentage[2:] == ".0":
+                    # percentage = percentage[:2]
             #     task_text = "*Правильних " + percentage + "%*" + task_ratio + "\n" + task_text
             # else:
             #     task_text = "*Правильних 0%* " + task_ratio + "\n" + task_text
@@ -231,7 +231,9 @@ class CallbackSwitcher(Switcher):
             user_answer = self.split_callback_text[1][0]
             correct_answer = self.split_callback_text[1][1]
 
-            print(self.user.task_id, user_answer, correct_answer)
+            date_time_now = datetime.now()
+            print("[{}] ".format(date_time_now.strftime("%d/%m/%Y %H:%M:%S")),
+                  "{} answer: ".format(self.user.chat_id), self.user.task_id - 1, user_answer)
 
             self.user.count_answers += 1
 
@@ -293,12 +295,28 @@ class CallbackSwitcher(Switcher):
 
             task_number = len(config.tasks_dict[self.user.step + "_" + period + self.user.year]) - 1
 
+            # if self.user.count_answers != 0 and self.user.count_correct_answers != 0:
+             #    percentage = str((self.user.count_correct_answers * 100) / task_number)[:5]
+               #  if percentage[2:] == ".0":
+                 #    percentage = percentage[:2]
+            #     task_text = "*Правильних " + percentage + "%*" + task_ratio + "\n" + task_text
+            # else:
+            #     task_text = "*Правильних 0%* " + task_ratio + "\n" + task_text
+
             if self.user.step_type != "random":
-                msg = "Ви завершили тест КРОК-" + self.user.step[-1] + " " + self.user.year + "\n"
-                msg += "Ви дійшли до завдання номер " + str(self.user.task_id - 1) + "\n"
-                msg += "Загальний результат по тесту: "
-                msg += str(100 * (self.user.count_correct_answers / task_number)) + "%"
-                msg += " (" + str(self.user.count_correct_answers) + "/" + str(task_number) + ")"
+                percentage = str((self.user.count_correct_answers * 100) / task_number)[:5]
+                if percentage[2:] == ".0":
+                    percentage = percentage[:2]
+                else:
+                    msg += "Загальний результат по тесту: "
+                    msg += percentage + "%"
+
+
+                # msg = "Ви завершили тест КРОК-" + self.user.step[-1] + " " + self.user.year + "\n"
+                # msg += "Ви дійшли до завдання номер " + str(self.user.task_id - 1) + "\n"
+                # msg += "Загальний результат по тесту: "
+                # msg += str(100 * (self.user.count_correct_answers / task_number)) + "%"
+                # msg += " (" + str(self.user.count_correct_answers) + "/" + str(task_number) + ")"
             if self.user.step_type == "random":
                 msg = "Ви завершили випадкові тести.\n"
                 msg += "Результат: ".format(self.user.count_answers)
@@ -306,6 +324,7 @@ class CallbackSwitcher(Switcher):
                 msg += " (" + str(self.user.count_correct_answers) + "/" + str(self.user.count_answers) + ")"
 
             self.user.count_correct_answers = 0
+            self.user.count_answers = 0
 
             self.bot.delete_message(
                                     chat_id = self.chat_id,
