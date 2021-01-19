@@ -1,6 +1,4 @@
-# API_TOKEN = '1294627568:AAFVVUncrrbbEQ1MOJmeytYt5tyseJxjmFE' # me
-API_TOKEN = '941290827:AAGEGFB-ZdhJyNRkwsCiD17T_8ZxfFatRXs'  # sasha
-
+sAPI_TOKEN = '************************************'
 commands = ["start", "help", "register"]
 steps = ["STEP1", "STEP2", "STEP3"]
 periods = ["AUTUMN"]
