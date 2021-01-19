@@ -1,4 +1,4 @@
-sAPI_TOKEN = '************************************'
+API_TOKEN = '************************************'
 commands = ["start", "help", "register"]
 steps = ["STEP1", "STEP2", "STEP3"]
 periods = ["AUTUMN"]
